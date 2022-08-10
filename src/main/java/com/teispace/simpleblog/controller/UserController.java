@@ -1,6 +1,7 @@
 package com.teispace.simpleblog.controller;
 
 import com.teispace.simpleblog.entities.User;
+import com.teispace.simpleblog.exceptions.ResourceNotFoundException;
 import com.teispace.simpleblog.services.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,8 +37,16 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getUserById(@PathVariable String id) throws Exception {
-        return  new ResponseEntity<>(userService.getUserById(Integer.parseInt(id)),HttpStatus.OK);
+    public ResponseEntity<Object> getUserById(@PathVariable String id) throws ResourceNotFoundException,Exception {
+        int uId;
+        try{
+            uId = Integer.parseInt(id);
+        }catch (NumberFormatException e){
+            throw new ResourceNotFoundException("User","Id",id);
+        }catch (Exception ex){
+            throw new Exception("Something Went Wrong");
+        }
+        return  new ResponseEntity<>(userService.getUserById(uId),HttpStatus.OK);
     }
 
     @GetMapping()

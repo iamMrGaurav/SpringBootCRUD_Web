@@ -27,6 +27,7 @@ public class UserWebController {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users",users);
         model.addAttribute("name","");
+        model.addAttribute("pageTitle","Users");
         return "user";
     }
 
@@ -40,6 +41,7 @@ public class UserWebController {
     @GetMapping ("/add")
     public String getAddUser(Model model){
         model.addAttribute("user",new User());
+        model.addAttribute("pageTitle","Add Users");
         return "addUser";
     }
     @PostMapping ("/add")
@@ -51,14 +53,17 @@ public class UserWebController {
 
     @GetMapping ("/update/{id}")
     public String getUpdateUser(Model model,@PathVariable String id){
+        model.addAttribute("pageTitle","Update Users");
            try {
                User user = userService.getUserById(Integer.parseInt(id));
                model.addAttribute("user", user);
+
                return "update";
            }catch (Exception e){
                model.addAttribute("user", new User());
                return "update";
            }
+
 
     }
 
@@ -74,6 +79,7 @@ public class UserWebController {
         List<User> users = userService.findUserByName(name);
         model.addAttribute("users",users);
         model.addAttribute("name",name);
+        model.addAttribute("pageTitle","Users");
         return "user";
     }
 

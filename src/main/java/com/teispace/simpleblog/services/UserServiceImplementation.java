@@ -1,5 +1,6 @@
 package com.teispace.simpleblog.services;
 import com.teispace.simpleblog.entities.User;
+import com.teispace.simpleblog.exceptions.ResourceNotFoundException;
 import com.teispace.simpleblog.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +38,8 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User getUserById(int id) throws Exception {
-        return userRepo.findById(id).orElseThrow(()-> new Exception("NOT FOUND"));
+    public User getUserById(int id) throws ResourceNotFoundException {
+        return userRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("User","id",String.valueOf(id)));
     }
 
     @Override
